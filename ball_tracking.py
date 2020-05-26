@@ -8,7 +8,7 @@ from matplotlib.pyplot import *
 from matplotlib import pyplot as plt
 import cmath
 cap = cv2.VideoCapture(0)
-pts = deque(maxlen=1000)
+pts = deque(maxlen=10)
 
 count = 0
 
@@ -88,6 +88,29 @@ while(True):
                 x3 = center[0]
                 y3 = center[1]
                 a, b, c = calc_parabola_vertex(x1, y1, x2, y2, x3, y3)
+                print("a: " + str(a))
+                print("b: " + str(b))
+                print("c: " + str(c))
+                c4 = c
+                
+            else:
+                count -= 1
+            #x = calc_x(a, b, c)
+            #print("(" + str(x) + ", 10)")
+        elif count == 4:
+            if center[0] != x3:
+                x4 = center[0]
+                y4 = center[1]
+                a2, b2, c2 = calc_parabola_vertex(x2, y2, x3, y3, x4, y4)
+                print("a2: " + str(a2))
+                print("b2: " + str(b2))
+                print("c2: " + str(c2))
+                a = float((a + a2) / 2)
+                
+                b = float((b + b2) / 2)
+              
+                c = float((c4 + c2) / 2)
+
                 d = (b**2) - (4*a*c)
 
                 # find two solutions
@@ -104,11 +127,8 @@ while(True):
                 print("(" + str(sol2) + ", 0)")
             else:
                 count -= 1
-            #x = calc_x(a, b, c)
-            #print("(" + str(x) + ", 10)")
-        #elif count == 5:
-         #   plt.show()
-        print(str(count) + " - " + str(center))
+
+        print(str(count) + " - " + str(center) + " - " + str(radius))
     # loop over the set of tracked points
     for i in range(1, len(pts)):
     	# if either of the tracked points are None, ignore
@@ -117,7 +137,7 @@ while(True):
     		continue
     	# otherwise, compute the thickness of the line and
     	# draw the connecting lines
-    	thickness = int(np.sqrt(1000 / float(i + 1)) * 2.5)
+    	thickness = int(np.sqrt(10 / float(i + 1)) * 2.5)
     	cv2.line(frame, pts[i - 1], pts[i], (0, 0, 255), thickness)
     # show the frame to our screen
     cv2.imshow("Frame", frame)
@@ -127,6 +147,8 @@ while(True):
     	break
     if key == ord("g"):
         plt.show()
+    if key == ord("r"):
+        count = 0
 
 
 
