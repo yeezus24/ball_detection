@@ -1,5 +1,5 @@
 # ball_detection
-we detect balls teehee but not bollocks
+we detect balls 
 
 me and my friend want to win beer poing
 
